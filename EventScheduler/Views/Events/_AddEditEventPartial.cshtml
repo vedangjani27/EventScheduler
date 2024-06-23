@@ -57,8 +57,28 @@
     function closeParent() {
         parent.$.magnificPopup.close();
     };
+ $(document).ready(function () {
+        $("#addEventForm").validate({
+            rules: {
+                EndDate: {
+                    required: true,
+                    greaterThanStartDate: true
+                }
+            },
+            messages: {
+                EndDate: {
+                    required: "End date is required",
+                    greaterThanStartDate: "End date must be greater than or equal to start date."
+                }
+            }
+        });
 
-  
+        $.validator.addMethod("greaterThanStartDate", function (value, element) {
+            var startDate = new Date($('#StartDate').val());
+            var endDate = new Date(value);
+            return endDate >= startDate;
+        });
+});
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>

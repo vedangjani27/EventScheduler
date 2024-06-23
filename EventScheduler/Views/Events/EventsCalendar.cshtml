@@ -39,7 +39,7 @@
     });
 
     $('body').on('click', '#btnSubmitEvent', function (e) {
-        if ($(this).valid()) {
+        if ($("#addEventForm").valid()) {
             $("#addEventForm").submit();
         }
     });
