@@ -105,10 +105,26 @@ namespace EventScheduler.Controllers
                         return NotFound();
                     }
 
-                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                    SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
-                    eventToUpdate.StartDate = inputFormat.Parse(model.Start);
-                    eventToUpdate.EndDate = inputFormat.Parse(model.End);
+                    string[] formats = { "yyyy-MM-ddTHH:mm:ss.fffZ", "yyyy-MM-ddTHH:mm:ssZ", "yyyy-MM-ddTHH:mm:ss" };
+
+                    if (DateTime.TryParseExact(model.Start, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime startDate))
+                    {
+                        eventToUpdate.StartDate = startDate;
+                    }
+                    else
+                    {
+                        return BadRequest("Invalid start date format.");
+                    }
+
+                    if (model.End != null && DateTime.TryParseExact(model.End, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime endDate))
+                    {
+                        eventToUpdate.EndDate = endDate;
+                    }
+                    else
+                    {
+                        return BadRequest("Invalid end date format.");
+                    }
+
                     await _eventRepository.UpdateEventAsync(eventToUpdate);
 
                     return Ok();
