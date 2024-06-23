@@ -1,0 +1,46 @@
+﻿<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+
+<div style="margin:20px;">
+    <div>
+        <button class="clsAddEvent btn btnAddEvent ms-5">
+            Add Event
+        </button>
+    </div>
+    <div id="calendar"> </div>
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+<script>
+    $('body').on('click', ".clsAddEvent", function (e) {
+        $.magnificPopup.open({
+            items: {
+                src: '/Events/AddEvent',
+                type: 'iframe'
+            },
+            iframe: {
+                markup: '<div class="mfp-iframe-scaler">' +
+                    '<div class="mfp-close"></div>' +
+                    '<iframe class="mfp-iframe" frameborder="0" allowfullscreen></iframe>' +
+                    '</div>',
+            },
+            closeOnBgClick: false,
+            closeBtnInside: true
+        });
+        e.preventDefault();
+    });
+
+    $('body').on('click', '#btnSubmitEvent', function (e) {
+        if ($(this).valid()) {
+            $("#addEventForm").submit();
+        }
+    });
+</script>

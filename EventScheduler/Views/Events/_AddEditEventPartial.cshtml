@@ -1,0 +1,68 @@
+﻿@using EventScheduler.Helpers;
+@model EventScheduler.Models.Entities.Event
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
+
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">@(Model.EventId == 0 ? "Add Event" : "Edit Event")</h5>
+    </div>
+    <div class="modal-body">
+        @* <form id="addEventForm" method="post" action="/Events/AddEvent" novalidate> *@
+        <form id="addEventForm" asp-action=@(Model.EventId == 0 ? "AddEvent" : "EditEvent") asp-controller="Events" method="post">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.EventId)
+            <div class="form-group ">
+                <label for="EventTitle">Title</label>
+                <input type="text" class="form-control" id="EventTitle" name="EventTitle" value="@Model.EventTitle" required />
+                <span class="text-danger" data-valmsg-for="EventTitle" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group mt-2">
+                <label for="StartDate">Select Events Date Time</label>
+                <div class="input-group">
+                    <input type="datetime-local" class="form-control" id="StartDate" name="StartDate" value="@Model.StartDate.ToString("yyyy-MM-ddTHH:mm")" required />
+                    <span class="text-danger" data-valmsg-for="StartDate" data-valmsg-replace="true"></span>
+                    <input type="datetime-local" class="form-control" id="EndDate" name="EndDate" value="@Model.EndDate.ToString("yyyy-MM-ddTHH:mm")" required />
+                    <span class="text-danger" data-valmsg-for="EndDate" data-valmsg-replace="true"></span>
+                </div>
+
+            </div>
+            <div class="form-group mt-2">
+                <label for="Priority">Priority</label>
+                <select class="form-control" id="Priority" name="Priority" required>
+                    @foreach (var priority in Enum.GetValues(typeof(Enums.Priority)))
+                    {
+                        <option value="@priority">@priority</option>
+                    }
+                </select>
+                <span class="text-danger" data-valmsg-for="Priority" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group mt-2">
+                <label for="EventDescription">Description</label>
+                <textarea class="form-control" id="EventDescription" name="EventDescription" rows="3" required>@Model.EventDescription</textarea>
+                <span class="text-danger" data-valmsg-for="EventDescription" data-valmsg-replace="true"></span>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3" id="btnSubmitEvent">Save changes</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+@Html.Raw(ViewBag.CloseAlert)
+<script>
+    function closeParent() {
+        parent.$.magnificPopup.close();
+    };
+
+  
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
