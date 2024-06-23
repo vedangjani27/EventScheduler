@@ -27,8 +27,8 @@
         eventDrop: function (event, delta, revertFunc) {
             var data = {
                 id: event.id,
-                start: event.start.format("YYYY-MM-DDTHH:mm:ss"), 
-                end: event.end.format("YYYY-MM-DDTHH:mm:ss")
+                start: event.start.toISOString(),  
+                end: event.end ? event.end.toISOString() : null
             };
 
             $.ajax({
